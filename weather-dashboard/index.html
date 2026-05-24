@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Dashboard - Real-time Weather Updates</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1 class="logo">⛅ Weather Dashboard</h1>
+                <p class="subtitle">Real-time weather updates from around the world</p>
+            </div>
+        </header>
+
+        <!-- Search Section -->
+        <section class="search-section">
+            <div class="search-container">
+                <input 
+                    type="text" 
+                    id="searchInput" 
+                    class="search-input" 
+                    placeholder="Search city name (e.g., London, New York, Tokyo)..."
+                    autocomplete="off"
+                >
+                <button id="searchBtn" class="search-button">Search</button>
+                <button id="locationBtn" class="location-button" title="Use my location">📍</button>
+            </div>
+            <div id="suggestions" class="suggestions"></div>
+        </section>
+
+        <!-- Loading State -->
+        <div id="loading" class="loading hidden">
+            <div class="spinner"></div>
+            <p>Fetching weather data...</p>
+        </div>
+
+        <!-- Error Message -->
+        <div id="error" class="error hidden"></div>
+
+        <!-- Main Weather Display -->
+        <main id="mainContent" class="main-content hidden">
+            <!-- Current Weather Card -->
+            <section class="current-weather">
+                <div class="weather-header">
+                    <div class="location-info">
+                        <h2 id="cityName" class="city-name">City Name</h2>
+                        <p id="countryName" class="country-name">Country</p>
+                        <p id="updateTime" class="update-time">Last updated: --:--</p>
+                    </div>
+                    <div class="weather-icon-large">
+                        <img id="weatherIcon" src="" alt="Weather icon" class="icon-img">
+                    </div>
+                </div>
+
+                <div class="temperature-section">
+                    <div class="temp-display">
+                        <span id="temperature" class="temperature">--°</span>
+                        <span class="unit">C</span>
+                    </div>
+                    <div class="weather-description">
+                        <p id="weatherDesc" class="description">--</p>
+                        <p id="feelsLike" class="feels-like">Feels like --°C</p>
+                    </div>
+                </div>
+
+                <div class="weather-details">
+                    <div class="detail-card">
+                        <div class="detail-icon">💧</div>
+                        <div class="detail-info">
+                            <p class="detail-label">Humidity</p>
+                            <p id="humidity" class="detail-value">--%</p>
+                        </div>
+                    </div>
+
+                    <div class="detail-card">
+                        <div class="detail-icon">💨</div>
+                        <div class="detail-info">
+                            <p class="detail-label">Wind Speed</p>
+                            <p id="windSpeed" class="detail-value">-- m/s</p>
+                        </div>
+                    </div>
+
+                    <div class="detail-card">
+                        <div class="detail-icon">🔽</div>
+                        <div class="detail-info">
+                            <p class="detail-label">Pressure</p>
+                            <p id="pressure" class="detail-value">-- hPa</p>
+                        </div>
+                    </div>
+
+                    <div class="detail-card">
+                        <div class="detail-icon">👁️</div>
+                        <div class="detail-info">
+                            <p class="detail-label">Visibility</p>
+                            <p id="visibility" class="detail-value">-- km</p>
+                        </div>
+                    </div>
+
+                    <div class="detail-card">
+                        <div class="detail-icon">☁️</div>
+                        <div class="detail-info">
+                            <p class="detail-label">Cloudiness</p>
+                            <p id="clouds" class="detail-value">--%</p>
+                        </div>
+                    </div>
+
+                    <div class="detail-card">
+                        <div class="detail-icon">🌅</div>
+                        <div class="detail-info">
+                            <p class="detail-label">UV Index</p>
+                            <p id="uvIndex" class="detail-value">--</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Air Quality Section -->
+            <section class="air-quality">
+                <h3 class="section-title">Air Quality</h3>
+                <div class="air-quality-content">
+                    <div class="aqi-circle">
+                        <div id="aqiValue" class="aqi-value">--</div>
+                        <p id="aqiStatus" class="aqi-status">--</p>
+                    </div>
+                    <div class="pollutants">
+                        <div class="pollutant-item">
+                            <span class="pollutant-name">PM2.5</span>
+                            <span id="pm25" class="pollutant-value">--</span>
+                            <span class="pollutant-unit">µg/m³</span>
+                        </div>
+                        <div class="pollutant-item">
+                            <span class="pollutant-name">PM10</span>
+                            <span id="pm10" class="pollutant-value">--</span>
+                            <span class="pollutant-unit">µg/m³</span>
+                        </div>
+                        <div class="pollutant-item">
+                            <span class="pollutant-name">O₃</span>
+                            <span id="o3" class="pollutant-value">--</span>
+                            <span class="pollutant-unit">µg/m³</span>
+                        </div>
+                        <div class="pollutant-item">
+                            <span class="pollutant-name">NO₂</span>
+                            <span id="no2" class="pollutant-value">--</span>
+                            <span class="pollutant-unit">µg/m³</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 5-Day Forecast -->
+            <section class="forecast">
+                <h3 class="section-title">5-Day Forecast</h3>
+                <div id="forecastContainer" class="forecast-container"></div>
+            </section>
+
+            <!-- Hourly Forecast -->
+            <section class="hourly-forecast">
+                <h3 class="section-title">Hourly Forecast (Next 24 Hours)</h3>
+                <div id="hourlyContainer" class="hourly-container"></div>
+            </section>
+
+            <!-- Sun & Moon Info -->
+            <section class="sun-moon">
+                <div class="sun-info">
+                    <h3 class="sub-title">☀️ Sun</h3>
+                    <p class="time-info">
+                        <span class="label">Rise:</span>
+                        <span id="sunrise" class="value">--:--</span>
+                    </p>
+                    <p class="time-info">
+                        <span class="label">Set:</span>
+                        <span id="sunset" class="value">--:--</span>
+                    </p>
+                </div>
+                <div class="moon-info">
+                    <h3 class="sub-title">🌙 Moon</h3>
+                    <p class="time-info">
+                        <span class="label">Rise:</span>
+                        <span id="moonrise" class="value">--:--</span>
+                    </p>
+                    <p class="time-info">
+                        <span class="label">Set:</span>
+                        <span id="moonset" class="value">--:--</span>
+                    </p>
+                </div>
+            </section>
+        </main>
+
+        <!-- Recently Searched -->
+        <section id="recentSection" class="recent-section">
+            <h3 class="section-title">Recently Searched</h3>
+            <div id="recentCities" class="recent-cities"></div>
+        </section>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -33,41 +33,42 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
+    <!-- Hero Section with Banner Image -->
     <section class="hero">
+        <div class="hero-background">
+            <img src="https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=1920&h=1080&fit=crop" alt="FORME Banner" class="hero-image" id="bannerImage">
+            <div class="hero-overlay"></div>
+        </div>
         <div class="hero-content">
-            <div class="hero-logo">
+            <div class="hero-logo fade-in-down">
                 <svg viewBox="0 0 400 300" class="forme-logo-large">
                     <text x="200" y="180" class="forme-text-large" text-anchor="middle">FORME</text>
                     <line x1="260" y1="200" x2="340" y2="200" class="forme-underline-large" />
                 </svg>
             </div>
-            <h1 class="tagline">Not a routine.<br>A ritual.</h1>
-            <p class="hero-description">Luxury botanical self-care crafted for intentional living</p>
-            <button class="cta-button">Explore Rituals</button>
-        </div>
-        <div class="hero-visual">
-            <div class="hero-gradient"></div>
+            <h1 class="tagline fade-in-up" style="animation-delay: 0.2s">Not a routine.<br>A ritual.</h1>
+            <p class="hero-description fade-in-up" style="animation-delay: 0.4s">Luxury botanical self-care crafted for intentional living</p>
+            <button class="cta-button fade-in-up pulse-button" style="animation-delay: 0.6s">Explore Products</button>
         </div>
     </section>
 
     <!-- Introduction Section -->
     <section class="intro-section">
         <div class="intro-content">
-            <h2>Botanical Rituals for the Modern Soul</h2>
-            <p>Each FORME product is a moment of intention. Pure ingredients. Minimal design. Maximum care.</p>
+            <h2 class="section-title slide-in-left">Botanical Rituals for the Modern Soul</h2>
+            <p class="intro-text slide-in-right">Each FORME product is a moment of intention. Pure ingredients. Minimal design. Maximum care.</p>
             <div class="three-column">
-                <div class="intro-card">
+                <div class="intro-card card-float">
                     <div class="card-icon">🌿</div>
                     <h3>Pure Botanicals</h3>
                     <p>Steam-distilled essences from nature's apothecary</p>
                 </div>
-                <div class="intro-card">
+                <div class="intro-card card-float" style="animation-delay: 0.2s">
                     <div class="card-icon">✨</div>
                     <h3>Minimal Design</h3>
                     <p>Elegant packaging as beautiful as what's inside</p>
                 </div>
-                <div class="intro-card">
+                <div class="intro-card card-float" style="animation-delay: 0.4s">
                     <div class="card-icon">🤍</div>
                     <h3>Intentional Living</h3>
                     <p>Transform daily moments into mindful rituals</p>
@@ -79,17 +80,18 @@
     <!-- Featured Products Section -->
     <section class="products" id="products">
         <div class="section-header">
-            <h2>Our Ritual Collection</h2>
-            <p>Each essence tells a story</p>
+            <h2 class="slide-in-left">Our Ritual Collection</h2>
+            <p class="slide-in-right">Each essence tells a story</p>
         </div>
 
         <div class="products-grid">
             <!-- Rose Water Product -->
-            <div class="product-card">
+            <div class="product-card scale-on-hover">
                 <div class="product-image rose-water-image">
+                    <img src="https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=400&h=500&fit=crop" alt="Rose Water" class="product-img" id="product1Image">
                     <div class="product-watermark">FORME</div>
                 </div>
-                <div class="product-info">
+                <div class="product-info fade-in-up">
                     <h3>Rose Water</h3>
                     <p class="product-description">Pure & Steam Distilled Facial Mist</p>
                     <div class="product-benefits">
@@ -99,16 +101,17 @@
                     </div>
                     <p class="product-details">100 ml | All Skin Types</p>
                     <p class="product-price">£42</p>
-                    <button class="product-button">Add to Ritual</button>
+                    <button class="product-button pulse-button">Add to Ritual</button>
                 </div>
             </div>
 
             <!-- Rosemary Water Product -->
-            <div class="product-card">
+            <div class="product-card scale-on-hover" style="animation-delay: 0.2s">
                 <div class="product-image rosemary-water-image">
+                    <img src="https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=400&h=500&fit=crop" alt="Rosemary Water" class="product-img" id="product2Image">
                     <div class="product-watermark">FORME</div>
                 </div>
-                <div class="product-info">
+                <div class="product-info fade-in-up" style="animation-delay: 0.2s">
                     <h3>Rosemary Water</h3>
                     <p class="product-description">Pure & Steam Distilled Facial Mist</p>
                     <div class="product-benefits">
@@ -118,27 +121,7 @@
                     </div>
                     <p class="product-details">100 ml | All Skin Types</p>
                     <p class="product-price">£42</p>
-                    <button class="product-button">Add to Ritual</button>
-                </div>
-            </div>
-
-            <!-- Ritual Set Product -->
-            <div class="product-card featured">
-                <div class="product-image ritual-set-image">
-                    <div class="product-watermark">FORME</div>
-                    <span class="badge">Bestseller</span>
-                </div>
-                <div class="product-info">
-                    <h3>The Ritual Duo</h3>
-                    <p class="product-description">Rose + Rosemary Waters</p>
-                    <div class="product-benefits">
-                        <span>Complete ritual</span>
-                        <span>Morning & evening</span>
-                        <span>Save 15%</span>
-                    </div>
-                    <p class="product-details">2 x 100 ml | All Skin Types</p>
-                    <p class="product-price">£71.40</p>
-                    <button class="product-button">Add to Ritual</button>
+                    <button class="product-button pulse-button">Add to Ritual</button>
                 </div>
             </div>
         </div>
@@ -147,33 +130,33 @@
     <!-- Rituals Section -->
     <section class="rituals" id="rituals">
         <div class="section-header">
-            <h2>How to Ritual</h2>
-            <p>Transform moments into mindful practices</p>
+            <h2 class="slide-in-left">How to Ritual</h2>
+            <p class="slide-in-right">Transform moments into mindful practices</p>
         </div>
 
         <div class="rituals-container">
-            <div class="ritual-card">
+            <div class="ritual-card slide-in-left">
                 <div class="ritual-number">01</div>
                 <h3>Morning Ritual</h3>
                 <p>Begin your day with intention. Mist your face with FORME Rose Water as you set your daily purpose.</p>
                 <p class="ritual-time">2 minutes</p>
             </div>
 
-            <div class="ritual-card">
+            <div class="ritual-card slide-in-left" style="animation-delay: 0.2s">
                 <div class="ritual-number">02</div>
                 <h3>Midday Refresh</h3>
                 <p>Reset your energy. A quick spritz of Rose Water brings you back to presence and clarity.</p>
                 <p class="ritual-time">1 minute</p>
             </div>
 
-            <div class="ritual-card">
+            <div class="ritual-card slide-in-left" style="animation-delay: 0.4s">
                 <div class="ritual-number">03</div>
                 <h3>Evening Ritual</h3>
                 <p>Wind down with Rosemary Water. Clarify your mind and prepare for restorative rest.</p>
                 <p class="ritual-time">3 minutes</p>
             </div>
 
-            <div class="ritual-card">
+            <div class="ritual-card slide-in-left" style="animation-delay: 0.6s">
                 <div class="ritual-number">04</div>
                 <h3>Mindful Moment</h3>
                 <p>Anytime you need to reconnect. FORME waters are your anchor to intentional living.</p>
@@ -185,24 +168,24 @@
     <!-- Story Section -->
     <section class="story" id="story">
         <div class="story-container">
-            <div class="story-content">
+            <div class="story-content fade-in-left">
                 <h2>Our Story</h2>
                 <p>FORME began with a simple belief: your self-care deserves to be as intentional as you are.</p>
                 <p>In a world of noise and excess, we create moments of calm. Each botanical essence is carefully selected and steam-distilled to preserve its pure, transformative properties.</p>
                 <p>We don't make routines. We craft rituals—small, meaningful moments that reconnect you to yourself.</p>
                 <div class="story-values">
-                    <div class="value">
+                    <div class="value bounce-in">
                         <strong>Pure</strong><br>No artificial ingredients. Just nature's wisdom.
                     </div>
-                    <div class="value">
+                    <div class="value bounce-in" style="animation-delay: 0.2s">
                         <strong>Minimal</strong><br>Elegant design that respects the product and your space.
                     </div>
-                    <div class="value">
+                    <div class="value bounce-in" style="animation-delay: 0.4s">
                         <strong>Intentional</strong><br>Every detail chosen to elevate your ritual.
                     </div>
                 </div>
             </div>
-            <div class="story-visual">
+            <div class="story-visual fade-in-right">
                 <div class="story-image-placeholder">
                     <div class="forme-watermark">FORME</div>
                 </div>
@@ -213,27 +196,27 @@
     <!-- Ingredients Section -->
     <section class="ingredients">
         <div class="section-header">
-            <h2>Pure Botanicals</h2>
-            <p>Sourced with intention, extracted with care</p>
+            <h2 class="slide-in-left">Pure Botanicals</h2>
+            <p class="slide-in-right">Sourced with intention, extracted with care</p>
         </div>
 
         <div class="ingredients-grid">
-            <div class="ingredient-card">
+            <div class="ingredient-card rotate-in">
                 <div class="ingredient-icon">🌹</div>
                 <h3>Rose</h3>
                 <p>Hydrating and soothing. The classic ritual of care and tenderness.</p>
             </div>
-            <div class="ingredient-card">
+            <div class="ingredient-card rotate-in" style="animation-delay: 0.2s">
                 <div class="ingredient-icon">🌿</div>
                 <h3>Rosemary</h3>
                 <p>Clarifying and revitalizing. An herbalist's secret for mental clarity.</p>
             </div>
-            <div class="ingredient-card">
+            <div class="ingredient-card rotate-in" style="animation-delay: 0.4s">
                 <div class="ingredient-icon">💧</div>
                 <h3>Steam Distilled</h3>
                 <p>A pure extraction method that preserves botanical potency without harsh chemicals.</p>
             </div>
-            <div class="ingredient-card">
+            <div class="ingredient-card rotate-in" style="animation-delay: 0.6s">
                 <div class="ingredient-icon">♻️</div>
                 <h3>Sustainable</h3>
                 <p>Ethically sourced. Cruelty-free. Respectful of nature and people.</p>
@@ -241,48 +224,25 @@
         </div>
     </section>
 
-    <!-- Packaging Section -->
-    <section class="packaging">
-        <div class="packaging-container">
-            <div class="packaging-content">
-                <h2>Luxury Unboxing</h2>
-                <p>Every element of FORME is designed to elevate your experience. From the moment you open your box, you're in ritual.</p>
-                <ul class="packaging-features">
-                    <li>Minimalist kraft packaging</li>
-                    <li>Signature FORME branding</li>
-                    <li>Premium amber glass bottles</li>
-                    <li>Elegant printed labels</li>
-                    <li>Carefully curated presentation</li>
-                    <li>Reusable, refillable design</li>
-                </ul>
-            </div>
-            <div class="packaging-visual">
-                <div class="packaging-image-placeholder">
-                    <div class="forme-watermark">FORME</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- Testimonials Section -->
     <section class="testimonials">
         <div class="section-header">
-            <h2>Loved by Ritual Makers</h2>
-            <p>Real experiences from our community</p>
+            <h2 class="slide-in-left">Loved by Ritual Makers</h2>
+            <p class="slide-in-right">Real experiences from our community</p>
         </div>
 
         <div class="testimonials-grid">
-            <div class="testimonial-card">
+            <div class="testimonial-card fade-in-up">
                 <div class="stars">★★★★★</div>
                 <p>"FORME turned my morning into a moment of intention. It's not just a product—it's a practice."</p>
                 <p class="testimonial-author">— Elena M.</p>
             </div>
-            <div class="testimonial-card">
+            <div class="testimonial-card fade-in-up" style="animation-delay: 0.2s">
                 <div class="stars">★★★★★</div>
                 <p>"The packaging alone makes me feel like I'm investing in myself. And the rose water? Pure magic."</p>
                 <p class="testimonial-author">— Sophie L.</p>
             </div>
-            <div class="testimonial-card">
+            <div class="testimonial-card fade-in-up" style="animation-delay: 0.4s">
                 <div class="stars">★★★★★</div>
                 <p>"Finally, luxury skincare that feels intentional, not excessive. This is self-care done right."</p>
                 <p class="testimonial-author">— Grace T.</p>
@@ -292,12 +252,12 @@
 
     <!-- Newsletter Section -->
     <section class="newsletter">
-        <div class="newsletter-content">
+        <div class="newsletter-content fade-in-up">
             <h2>Receive Ritual Inspiration</h2>
             <p>Botanical tips, mindful moments, and exclusive releases</p>
             <form class="newsletter-form">
                 <input type="email" placeholder="Your email" required>
-                <button type="submit">Subscribe</button>
+                <button type="submit" class="pulse-button">Subscribe</button>
             </form>
             <p class="newsletter-note">No spam. Just intentional moments delivered to your inbox.</p>
         </div>

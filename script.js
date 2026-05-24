@@ -1,127 +1,184 @@
-// FORME Luxury Ecommerce - JavaScript Interactions
+/* ════════════════════════════════════════
+   FORME — script.js
+   Cart, Particles, Scroll Reveal, Parallax
+════════════════════════════════════════ */
 
-// Smooth scrolling for navigation links
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
-        }
-    });
-});
+// ── CART STATE ──────────────────────────────────────────────
+const cart = {};
 
-// Cart functionality
-const cartIcon = document.querySelector('.cart-icon');
-let cartCount = 0;
+const cartDrawer  = document.getElementById('cartDrawer');
+const cartOverlay = document.getElementById('cartOverlay');
+const cartBtn     = document.getElementById('cartBtn');
+const cartClose   = document.getElementById('cartClose');
+const cartItems   = document.getElementById('cartItems');
+const cartEmpty   = document.getElementById('cartEmpty');
+const cartFooter  = document.getElementById('cartFooter');
+const cartCount   = document.getElementById('cartCount');
+const cartTotal   = document.getElementById('cartTotal');
+const toast       = document.getElementById('toast');
 
-cartIcon.addEventListener('click', () => {
-    console.log('Cart opened. Items:', cartCount);
-});
+function openCart() {
+  cartDrawer.classList.add('open');
+  cartOverlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeCart() {
+  cartDrawer.classList.remove('open');
+  cartOverlay.classList.remove('open');
+  document.body.style.overflow = '';
+}
+cartBtn.addEventListener('click', openCart);
+cartClose.addEventListener('click', closeCart);
+cartOverlay.addEventListener('click', closeCart);
 
-// Product button interactions
-document.querySelectorAll('.product-button').forEach(button => {
-    button.addEventListener('click', function(e) {
-        e.preventDefault();
-        const productName = this.closest('.product-card').querySelector('h3').textContent;
-        
-        // Visual feedback
-        const originalText = this.textContent;
-        this.textContent = 'Added to Ritual ✓';
-        this.style.backgroundColor = 'var(--color-sage)';
-        
-        cartCount++;
-        
-        setTimeout(() => {
-            this.textContent = originalText;
-            this.style.backgroundColor = '';
-        }, 2000);
-        
-        console.log(`${productName} added to cart`);
-    });
-});
-
-// CTA Button
-document.querySelector('.cta-button').addEventListener('click', () => {
-    document.getElementById('rituals').scrollIntoView({ behavior: 'smooth' });
-});
-
-// Newsletter form submission
-const newsletterForm = document.querySelector('.newsletter-form');
-if (newsletterForm) {
-    newsletterForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        const email = this.querySelector('input[type="email"]').value;
-        
-        if (email) {
-            const button = this.querySelector('button');
-            const originalText = button.textContent;
-            button.textContent = 'Welcome to FORME ✓';
-            button.style.backgroundColor = 'var(--color-sage)';
-            
-            this.querySelector('input[type="email"]').value = '';
-            
-            setTimeout(() => {
-                button.textContent = originalText;
-                button.style.backgroundColor = '';
-            }, 3000);
-            
-            console.log('Newsletter signup:', email);
-        }
-    });
+function addToCart(id, name, price) {
+  if (cart[id]) {
+    cart[id].qty++;
+  } else {
+    cart[id] = { id, name, price: parseInt(price), qty: 1 };
+  }
+  renderCart();
+  showToast(`✦ ${name} added`);
+  // Wiggle cart icon
+  cartBtn.style.transform = 'scale(1.35)';
+  setTimeout(() => { cartBtn.style.transform = ''; }, 200);
 }
 
-// Add scroll animation for elements
-const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -100px 0px'
-};
+function changeQty(id, delta) {
+  if (!cart[id]) return;
+  cart[id].qty += delta;
+  if (cart[id].qty <= 0) delete cart[id];
+  renderCart();
+}
 
-const observer = new IntersectionObserver(function(entries) {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.style.opacity = '1';
-            entry.target.style.transform = 'translateY(0)';
-        }
+function renderCart() {
+  const items = Object.values(cart);
+  const total = items.reduce((s, i) => s + i.price * i.qty, 0);
+  const count = items.reduce((s, i) => s + i.qty, 0);
+
+  // Count badge
+  cartCount.textContent = count;
+  cartCount.classList.toggle('show', count > 0);
+
+  // Footer
+  cartFooter.style.display = items.length ? 'block' : 'none';
+  cartEmpty.style.display  = items.length ? 'none' : 'flex';
+  cartTotal.textContent = `₹${total.toLocaleString('en-IN')}`;
+
+  // Items
+  const existing = cartItems.querySelectorAll('.cart-item');
+  existing.forEach(el => el.remove());
+
+  items.forEach(item => {
+    const el = document.createElement('div');
+    el.className = 'cart-item';
+    el.innerHTML = `
+      <div class="cart-item-name">${item.name}</div>
+      <div class="cart-item-controls">
+        <button class="qty-btn" data-id="${item.id}" data-delta="-1">−</button>
+        <span class="qty-num">${item.qty}</span>
+        <button class="qty-btn" data-id="${item.id}" data-delta="1">+</button>
+      </div>
+      <div class="cart-item-price">₹${(item.price * item.qty).toLocaleString('en-IN')}</div>
+    `;
+    cartItems.appendChild(el);
+  });
+
+  cartItems.querySelectorAll('.qty-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      changeQty(btn.dataset.id, parseInt(btn.dataset.delta));
     });
-}, observerOptions);
+  });
+}
 
-// Observe product cards and ritual cards
-document.querySelectorAll('.product-card, .ritual-card, .ingredient-card').forEach(el => {
-    el.style.opacity = '0';
-    el.style.transform = 'translateY(20px)';
-    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-    observer.observe(el);
+// Delegate Add to Cart clicks
+document.addEventListener('click', e => {
+  const btn = e.target.closest('[data-id][data-name][data-price]');
+  if (btn && (btn.classList.contains('add-btn') || btn.classList.contains('quick-add'))) {
+    addToCart(btn.dataset.id, btn.dataset.name, btn.dataset.price);
+  }
 });
 
-// Navbar scroll effect
-const navbar = document.querySelector('.navbar');
-let lastScrollY = 0;
+// ── TOAST ────────────────────────────────────────────────────
+let toastTimer;
+function showToast(msg) {
+  toast.textContent = msg;
+  toast.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove('show'), 2800);
+}
 
+// ── NEWSLETTER ───────────────────────────────────────────────
+function handleNewsletter(e) {
+  e.preventDefault();
+  const input = e.target.querySelector('input');
+  showToast(`🌿 Welcome to the ritual, ${input.value}`);
+  input.value = '';
+}
+
+// ── NAVBAR SCROLL ────────────────────────────────────────────
+const navbar = document.getElementById('navbar');
 window.addEventListener('scroll', () => {
-    lastScrollY = window.scrollY;
-    
-    if (lastScrollY > 100) {
-        navbar.style.boxShadow = 'var(--shadow-md)';
-    } else {
-        navbar.style.boxShadow = 'none';
+  navbar.classList.toggle('scrolled', window.scrollY > 60);
+}, { passive: true });
+
+// ── PARALLAX HERO ─────────────────────────────────────────────
+const heroParallax = document.getElementById('heroParallax');
+window.addEventListener('scroll', () => {
+  if (!heroParallax) return;
+  const y = window.scrollY;
+  heroParallax.style.transform = `translateY(${y * 0.28}px)`;
+}, { passive: true });
+
+// ── SCROLL REVEAL ─────────────────────────────────────────────
+const revealEls = document.querySelectorAll('.reveal-up');
+const revealObserver = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      revealObserver.unobserve(entry.target);
     }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+revealEls.forEach(el => revealObserver.observe(el));
+
+// ── FLOATING PARTICLES ────────────────────────────────────────
+const particleContainer = document.getElementById('particles');
+const PARTICLE_COUNT = 18;
+
+function createParticle() {
+  const p = document.createElement('div');
+  p.className = 'particle';
+  const size = Math.random() * 180 + 60;
+  const x = Math.random() * 100;
+  const duration = Math.random() * 25 + 20;
+  const delay = Math.random() * 15;
+  p.style.cssText = `
+    width:${size}px;
+    height:${size}px;
+    left:${x}%;
+    bottom:-${size}px;
+    animation-duration:${duration}s;
+    animation-delay:${delay}s;
+  `;
+  particleContainer.appendChild(p);
+}
+for (let i = 0; i < PARTICLE_COUNT; i++) createParticle();
+
+// ── PRODUCT CARD MAGNETIC TILT ─────────────────────────────────
+document.querySelectorAll('.product-card').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const rect = card.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    const dx = (e.clientX - cx) / (rect.width / 2);
+    const dy = (e.clientY - cy) / (rect.height / 2);
+    card.style.transform = `translateY(-10px) rotateY(${dx * 4}deg) rotateX(${-dy * 4}deg)`;
+  });
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = '';
+    card.style.transition = 'transform .5s ease';
+    setTimeout(() => { card.style.transition = ''; }, 500);
+  });
 });
-
-// Add hover effects to cards
-const addCardHoverEffects = () => {
-    document.querySelectorAll('.intro-card, .ritual-card, .ingredient-card, .testimonial-card').forEach(card => {
-        card.addEventListener('mouseenter', function() {
-            this.style.transition = 'var(--transition-smooth)';
-        });
-    });
-};
-
-addCardHoverEffects();
-
-// Log page load
-console.log('%cFORME', 'font-family: serif; font-size: 24px; color: #1a1a1a; font-weight: 400; letter-spacing: 2px;');
-console.log('%cNot a routine. A ritual.', 'font-style: italic; color: #666666; margin-top: 10px;');
